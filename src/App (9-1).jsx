@@ -6,7 +6,7 @@ function App() {
   return (
     <>
       <Canvas
-        // shadows
+        shadows="variance"
         camera={{
           near: 1,
           far: 100,

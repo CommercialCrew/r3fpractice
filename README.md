@@ -264,3 +264,46 @@ Perspective Camera
 ![orthographic](https://github.com/CommercialCrew/r3fpractice/assets/101386134/19f4cd7c-56a4-4443-89d5-b5f0434db6ec)
 
 Orthographic
+
+10-1
+---
+![directionalLight_Noshadow](https://github.com/CommercialCrew/r3fpractice/assets/101386134/a7a32b28-afbd-49fb-b177-aee069c40c65)
+
+directionalLight (No Shadow)
+
+10-2
+---
+![directionalLight_shadow](https://github.com/CommercialCrew/r3fpractice/assets/101386134/56b2aaf9-b65d-4279-a0a0-c6c2addc81a7)
+
+directionalLight (with Shadow)
+
+10-3
+---
+![pointLight_shadow](https://github.com/CommercialCrew/r3fpractice/assets/101386134/e1f00238-8077-4298-909a-9a6d54b1eb5f)
+
+pointLight (with Shadow)
+
+10-4
+---
+![spotLight_shadow](https://github.com/CommercialCrew/r3fpractice/assets/101386134/e4187a94-29ef-4b38-ad84-5fad3a86f1a2)
+
+spotLight (with Shadow)
+
+
+11-1
+---
+![11-1(Accumulative)](https://github.com/CommercialCrew/r3fpractice/assets/101386134/7a68455b-3487-44a3-a46b-e159d01acf23)
+
+Accumulative Light
+
+11-2
+---
+![11-2(SoftShadows)](https://github.com/CommercialCrew/r3fpractice/assets/101386134/2981f23c-cc3c-4d49-ae9f-18f9c7ccb58a)
+
+SoftShadows
+
+11-3
+---
+![ContactShadows](https://github.com/CommercialCrew/r3fpractice/assets/101386134/9d609d84-8ce3-4403-8cba-e99ee25b78b9)
+
+ContactShadows
