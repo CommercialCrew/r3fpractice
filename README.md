@@ -248,4 +248,19 @@ RectAreaLight
 Environment
 
 
+9-1
+---
+![9-1](https://github.com/CommercialCrew/r3fpractice/assets/101386134/457d9e69-4a6d-4ebb-8017-070bd8ef97de)
 
+
+9-2
+---
+![perspectivecamera](https://github.com/CommercialCrew/r3fpractice/assets/101386134/fc7fc225-5ba7-4044-baab-f8be46a9cb89)
+
+Perspective Camera
+
+9-3
+---
+![orthographic](https://github.com/CommercialCrew/r3fpractice/assets/101386134/19f4cd7c-56a4-4443-89d5-b5f0434db6ec)
+
+Orthographic

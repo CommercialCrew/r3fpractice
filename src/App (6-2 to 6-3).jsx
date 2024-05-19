@@ -5,12 +5,9 @@ import MyElement3D from './MyElement3D'
 function App() {
   return (
     <>
-      <Canvas
-        orthographic 
+      <Canvas 
         camera={{
-          near: 0.1,
-          far: 20,
-          zoom: 100,
+          fov: 75,
           position: [7,7,0]
 
         }}>
