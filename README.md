@@ -188,3 +188,64 @@ alpha
 ![7-8](https://github.com/CommercialCrew/r3fpractice/assets/101386134/13fa275b-edde-452b-9971-6c734932021a)
 
 alpha with transparent, alphaToCoverage
+
+
+8-1
+---
+![8-1(ambient)](https://github.com/CommercialCrew/r3fpractice/assets/101386134/9584d5e9-f593-4c2d-b6e0-3fa918c8e85a)
+
+ambientLight
+
+8-2
+---
+![8-2(hemishpere)](https://github.com/CommercialCrew/r3fpractice/assets/101386134/180ac8f2-4353-4ac0-8557-549c58f28750)
+
+hemisphere
+
+8-3
+---
+![8-3(directional)](https://github.com/CommercialCrew/r3fpractice/assets/101386134/4ff2772c-b1eb-4a97-ab77-b445363a0c68)
+
+directinoalLight
+
+8-4
+---
+![directionalLight](https://github.com/CommercialCrew/r3fpractice/assets/101386134/3de0f039-767c-48db-96ee-f627afa79d03)
+
+
+directionalLight with Helper
+
+8-5
+---
+![8-4(point)](https://github.com/CommercialCrew/r3fpractice/assets/101386134/757a6361-0262-4445-a3fd-f9f18be5be96)
+
+pointLight
+
+8-6
+---
+![pointLight](https://github.com/CommercialCrew/r3fpractice/assets/101386134/e1de673e-e568-43c3-b336-7c22ad0e2746)
+
+pointLight with Helper
+
+8-7
+---
+![spotLight](https://github.com/CommercialCrew/r3fpractice/assets/101386134/011d9484-ac33-4f28-a31e-f15f2ce63ef9)
+
+spotLight with Helper
+
+
+8-8
+---
+![8-5(RectArea)](https://github.com/CommercialCrew/r3fpractice/assets/101386134/b20b9b17-f631-4eaa-a824-da35d1f2a47e)
+
+RectAreaLight
+
+
+8-9
+---
+![8-6(Environment)](https://github.com/CommercialCrew/r3fpractice/assets/101386134/285c152c-40e4-4427-8572-4f70520c3c06)
+
+Environment
+
+
+

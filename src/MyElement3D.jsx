@@ -1,82 +1,151 @@
-import { OrbitControls, useTexture } from "@react-three/drei"
+import { Environment, OrbitControls, useHelper } from "@react-three/drei"
+import { useFrame, useThree } from "@react-three/fiber"
 import { useEffect, useRef } from "react"
 import * as THREE from "three"
+import { RectAreaLightUniformsLib } from "three/examples/jsm/Addons.js"
+import { RectAreaLightHelper } from "three/examples/jsm/Addons.js"
+
+const torusGeometry = new THREE.TorusGeometry(0.4,0.1,32,32)
+const torusMaterial = new THREE.MeshStandardMaterial({
+    color: "#9b59b6",
+    roughness: 0.5,
+    metalness: 0.9
+})
+
+//RectAreaLightUniformsLib.init()
 
 
 function MyElement3D(){
-    const textures = useTexture({
-        map: "./public/images/glass/Glass_Window_002_basecolor.jpg",
-        roughnessMap: "./public/images/glass/Glass_Window_002_roughness.jpg",
-        metalnessMap: "./public/images/glass/Glass_Window_002_metallic.jpg",
-        normalMap: "./public/images/glass/Glass_Window_002_normal.jpg",
-        displacementMap: "./public/images/glass/Glass_Window_002_height.png",
-        aoMap: "./public/images/glass/Glass_Window_002_ambientOcclusion.jpg",
-        alphaMap: "./public/images/glass/Glass_Window_002_opacity.jpg"
+    useFrame((state) => {
+        const time = state.clock.elapsedTime
+        const smallSpherePivot = state.scene.getObjectByName("smallSpherePivot")
+        smallSpherePivot.rotation.y = THREE.MathUtils.degToRad(time * 50)
+
+        // To make the light track the small sphere
+        //smallSpherePivot.children[0].getWorldPosition(light.current.target.position)
+        // To make the light move with the small sphere
+        //smallSpherePivot.children[0].getWorldPosition(light.current.position)
     })
 
-    const mesh = useRef()
+    //const light = useRef()
+    //RectAreaLight Helper
+    //useHelper(light, RectAreaLightHelper)
 
-    useEffect(() => {
-        textures.map.repeat.x = textures.displacementMap.repeat.x =
-        textures.aoMap.repeat.x = textures.roughnessMap.repeat.x = 
-        textures.metalnessMap.repeat.x = textures.normalMap.repeat.x = 
-        textures.alphaMap.repeat.x = 4
+    //SpotLight Helper
+    //useHelper(light, THREE.SpotLightHelper)
+    
+    
+    //PointLight Helper
+    //useHelper(light, THREE.PointLightHelper, 0.5)
 
-        textures.map.wrapS = textures.displacementMap.wrapS = 
-        textures.aoMap.wrapS = textures.roughnessMap.wrapS = 
-        textures.metalnessMap.wrapS = textures.normalMap.wrapS =
-        textures.alphaMap.wrapS = THREE.MirroredRepeatWrapping
 
-        textures.map.needsUpdate = textures.displacementMap.needsUpate =
-        textures.aoMap.needsUpdate = textures.roughnessMap.needsUpdate =
-        textures.metalnessMap.needsUpdate = textures.normalMap.needsUpdate =
-        textures.alphaMap.needsUpdate = true
 
-        mesh.current.geometry.setAttribute("uv2",
-            new THREE.BufferAttribute(mesh.current.geometry.attributes.uv.array, 2)
-        )
-    },[])
+    //DirectionalLight Helper
+
+    // useHelper(light, THREE.DirectionalLightHelper)
+
+    // const { scene } = useThree()
+
+    // useEffect(() => {
+    //     scene.add(light.current.target)
+    //     return () => {
+    //         scene.remove(light.current.target)
+    //     }
+    // },[light])
     
     return (
         <>
             <OrbitControls />
 
-            <ambientLight intensity={0.7} />
-            <directionalLight position={[0,1,-8]} intensity={0.4} />
-            <directionalLight position={[1,2,8]} intensity={0.4} />
+            <Environment 
+                blur={0.9}
+                background
+                files={"./public/images/metal/autumn_field_4k.hdr"}
+            />
+
+            {/* <ambientLight color="#ff0000" intensity={5} /> */}
+            {/* <hemisphereLight args={["#00f", "#f00", 7]} /> */}
+            {/* <directionalLight
+                ref={light}
+                color={0xffffff}
+                intensity={3}
+                position={[0,5,0]}
+                target-position={[1,0,0]}
+            /> */}
+            {/* <pointLight
+                ref={light}
+                color="#ffffff"
+                intensity={20}
+                position={[0,5,0]}
+                distance={1}
+            /> */}
+
+            {/* <spotLight 
+                ref={light}
+                color={0xffffff}
+                intensity={25}
+                position={[0,5,0]}
+                target-position={[0,0,0]}
+                distance={0}
+                angle={THREE.MathUtils.degToRad(30)}
+                penumbra={0}
+            /> */}
+
+            {/* <rectAreaLight
+                ref={light}
+                color="#ffffff"
+                intensity={10}
+                width={2}
+                height={5}
+                position={[0,5,0]}
+                rotation-x = {THREE.MathUtils.degToRad(-90)}
+            /> */}
 
 
-            <mesh ref={mesh}>
-                <cylinderGeometry args={[2,2,3,64,64,true]} />
-                <meshStandardMaterial 
-
-                    side={THREE.DoubleSide}
-
-                    map={textures.map}
-
-                    roughnessMap={textures.roughnessMap}
-                    roughnessMap-colorSpace={THREE.NoColorSpace}
-
-                    metalnessMap={textures.metalnessMap}
+            <mesh rotation-x={THREE.MathUtils.degToRad(-90)}>
+                <planeGeometry args={[10,10]} />
+                <meshStandardMaterial
+                    color="#2c3e50"
+                    roughness={0.5}
                     metalness={0.5}
-                    metalnessMap-colorSpace={THREE.NoColorSpace}
-
-                    normalMap={textures.normalMap}
-                    normalMap-colorSpace={THREE.NoColorSpace}
-                    normalScale={1}
-
-                    displacementMap={textures.displacementMap}
-                    displacementMap-colorSpace={THREE.NoColorSpace}
-                    displacementScale={0.2}
-                    displacementBias={-0.2}
-
-                    aoMap={textures.aoMap}
-
-                    alphaMap={textures.alphaMap}
-                    transparent
-                    alphaToCoverage
-                    />
+                    side={THREE.DoubleSide}
+                />
             </mesh>
+
+            <mesh rotation-x={THREE.MathUtils.degToRad(-90)}>
+                <sphereGeometry args={[1.5,64,64,0,Math.PI]} />
+                <meshStandardMaterial 
+                    color="#ffffff"
+                    roughness={0.1}
+                    metalness={0.2}
+                />
+            </mesh>
+
+            {new Array(8).fill().map((item,index) => {
+                return (
+                    <group key={index} rotation-y={THREE.MathUtils.degToRad(45*index)}>
+                        <mesh 
+                            geometry={torusGeometry}
+                            material={torusMaterial}
+                            position={[3,0.5,0]}
+                        />
+                    </group>
+                )
+            })}
+
+
+            <group name="smallSpherePivot">
+                <mesh position={[3,0.5,0]}>
+                    <sphereGeometry args={[0.3,32,32]} />
+                    <meshStandardMaterial 
+                        color="#e74c3c"
+                        roughness={0.2}
+                        metalness={0.5}
+                    />
+                </mesh>
+            </group>
+
+
         </>
     )
 }
