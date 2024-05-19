@@ -1,49 +1,82 @@
-import { Box, OrbitControls } from "@react-three/drei"
-import { useControls } from "leva"
+import { OrbitControls, useTexture } from "@react-three/drei"
 import { useEffect, useRef } from "react"
 import * as THREE from "three"
 
 
-
 function MyElement3D(){
-    const refMesh = useRef()
-    const refWireMesh = useRef()
-
-    const { topRadius, bottomRadius, height, radialSegments, heightSegments, bOpen, thetaStart, thetaLength } = useControls({
-        topRadius : { value: 1, min: 0.1, max: 5, step: 0.01 },
-        bottomRadius : { value: 1, min: 0.1, max: 5, step: 0.01 },
-        height : { value: 1, min: 0.1, max: 5, step: 0.01 },
-        radialSegments : { value: 32, min: 3, max: 256, step: 1 },
-        heightSegments : { value: 1, min: 1, max: 256, step: 1 },
-        bOpen : { value: false },
-        thetaStart : { value: 0, min: 0, max: 360, step: 0.01 },
-        thetaLength : { value: 0, min: 0, max: 360, step: 0.01 }
-
+    const textures = useTexture({
+        map: "./public/images/glass/Glass_Window_002_basecolor.jpg",
+        roughnessMap: "./public/images/glass/Glass_Window_002_roughness.jpg",
+        metalnessMap: "./public/images/glass/Glass_Window_002_metallic.jpg",
+        normalMap: "./public/images/glass/Glass_Window_002_normal.jpg",
+        displacementMap: "./public/images/glass/Glass_Window_002_height.png",
+        aoMap: "./public/images/glass/Glass_Window_002_ambientOcclusion.jpg",
+        alphaMap: "./public/images/glass/Glass_Window_002_opacity.jpg"
     })
 
-    useEffect(() => {
-        refWireMesh.current.geometry = refMesh.current.geometry
-    }, [topRadius, bottomRadius, height, radialSegments, heightSegments, bOpen, thetaStart, thetaLength])
+    const mesh = useRef()
 
+    useEffect(() => {
+        textures.map.repeat.x = textures.displacementMap.repeat.x =
+        textures.aoMap.repeat.x = textures.roughnessMap.repeat.x = 
+        textures.metalnessMap.repeat.x = textures.normalMap.repeat.x = 
+        textures.alphaMap.repeat.x = 4
+
+        textures.map.wrapS = textures.displacementMap.wrapS = 
+        textures.aoMap.wrapS = textures.roughnessMap.wrapS = 
+        textures.metalnessMap.wrapS = textures.normalMap.wrapS =
+        textures.alphaMap.wrapS = THREE.MirroredRepeatWrapping
+
+        textures.map.needsUpdate = textures.displacementMap.needsUpate =
+        textures.aoMap.needsUpdate = textures.roughnessMap.needsUpdate =
+        textures.metalnessMap.needsUpdate = textures.normalMap.needsUpdate =
+        textures.alphaMap.needsUpdate = true
+
+        mesh.current.geometry.setAttribute("uv2",
+            new THREE.BufferAttribute(mesh.current.geometry.attributes.uv.array, 2)
+        )
+    },[])
+    
     return (
         <>
             <OrbitControls />
 
-            <ambientLight intensity={0.1} />
-            <directionalLight position={[2,1,3]} intensity={0.5} />
+            <ambientLight intensity={0.7} />
+            <directionalLight position={[0,1,-8]} intensity={0.4} />
+            <directionalLight position={[1,2,8]} intensity={0.4} />
 
-            <mesh ref={refMesh}>
-                {/* <sphereGeometry args={[ radius, widthSegments, heightSegments, phiStart * Math.PI/180, phiLength * Math.PI/180, thetaStart * Math.PI/180, thetaLength * Math.PI/180 ]} /> */}
-                <cylinderGeometry args={[topRadius, bottomRadius, height, radialSegments, heightSegments, bOpen, thetaStart * Math.PI/180, thetaLength * Math.PI/180 ]} />
-                <meshStandardMaterial color="#1abc9c" />
+
+            <mesh ref={mesh}>
+                <cylinderGeometry args={[2,2,3,64,64,true]} />
+                <meshStandardMaterial 
+
+                    side={THREE.DoubleSide}
+
+                    map={textures.map}
+
+                    roughnessMap={textures.roughnessMap}
+                    roughnessMap-colorSpace={THREE.NoColorSpace}
+
+                    metalnessMap={textures.metalnessMap}
+                    metalness={0.5}
+                    metalnessMap-colorSpace={THREE.NoColorSpace}
+
+                    normalMap={textures.normalMap}
+                    normalMap-colorSpace={THREE.NoColorSpace}
+                    normalScale={1}
+
+                    displacementMap={textures.displacementMap}
+                    displacementMap-colorSpace={THREE.NoColorSpace}
+                    displacementScale={0.2}
+                    displacementBias={-0.2}
+
+                    aoMap={textures.aoMap}
+
+                    alphaMap={textures.alphaMap}
+                    transparent
+                    alphaToCoverage
+                    />
             </mesh>
-
-            <mesh ref={refWireMesh}>
-                <meshStandardMaterial emissive="yellow" wireframe={true} />
-            </mesh>
-
-            <axesHelper scale={10} />
-
         </>
     )
 }
