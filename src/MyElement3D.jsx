@@ -1,6 +1,7 @@
-import { AccumulativeShadows, ContactShadows, OrbitControls, RandomizedLight, SoftShadows } from "@react-three/drei"
-import { useFrame, useThree } from "@react-three/fiber"
-import { useEffect, useRef } from "react"
+/* eslint-disable react/no-unknown-property */
+import { OrbitControls} from "@react-three/drei"
+import { useFrame } from "@react-three/fiber"
+import { BrightnessContrast, EffectComposer, HueSaturation, DotScreen, Bloom } from "@react-three/postprocessing"
 import * as THREE from "three"
 import { useControls } from "leva"
 
@@ -17,7 +18,7 @@ function MyElement3D(){
     useFrame((state) => {
         const time = state.clock.elapsedTime
         const smallSpherePivot = state.scene.getObjectByName("smallSpherePivot")
-        smallSpherePivot.rotation.y = THREE.MathUtils.degToRad(time * 30)
+        smallSpherePivot.rotation.y = THREE.MathUtils.degToRad(time * 50)
 
         // To make the light track the small sphere
         //smallSpherePivot.children[0].getWorldPosition(light.current.target.position)
@@ -25,51 +26,81 @@ function MyElement3D(){
         //smallSpherePivot.children[0].getWorldPosition(light.current.position)
     })
 
-    // SoftShadows
-    // const config = useControls({
-    //     size: { value: 25, min: 0, max: 100 },
-    //     focus: { value: 0, min: 0, max: 10},
-    //     samples: { value: 10, min: 1, max: 100, step: 1 }
+    // const { enabled, hue, saturation } = useControls("HueSaturation", {
+    //     enabled: { value: true },
+    //     hue: {
+    //         value: 0,
+    //         min: 0,
+    //         max: Math.PI,
+    //         step: 0.1
+    //     },
+    //     saturation: {
+    //         value: 0,
+    //         min: 0,
+    //         max: Math.PI,
+    //         step: 0.1
+    //     }
     // })
 
-    //const light = useRef()
-
-    //const { scene } = useThree()
-
+    // const { brightness, contrast } = useControls({
+    //     brightness: {
+    //         value: 0,
+    //         min: -1,
+    //         max: 1,
+    //         step: 0.1
+    //     },
+    //     contrast: {
+    //         value: 0,
+    //         min: -1,
+    //         max: 1,
+    //         step: 0.1
+    //     }
+    // })
     
+    // const { angle, scale } = useControls("dotScreen" , {
+    //     angle: { value: 1.57, min: 0, max: Math.PI*2, step: 0.1 },
+    //     scale: { value: 1.57, min: 0, max: 10, step: 0.1 }
+    // })
+
+    const { intensity, mipmapBlur, luminanceThreshold, luminanceSmoothing } = useControls("Bloom", {
+        intensity: { value: 1, min: 0, max: 10, step: 0.01 },
+        mipmapBlur: { value: false },
+        luminanceThreshold: { value: 0.9, min: 0, max: 1, step: 0.01 },
+        luminanceSmoothing: { value: 0.025, min: 0, max: 2, step: 0.01 }
+    })
 
     return (
         <>
         <OrbitControls />
 
-        {/* SoftShadows */}
-        {/* <SoftShadows 
-            {...config}
-        /> */}
+        <EffectComposer disableNormalPass >
+            {/* <HueSaturation hue={hue} saturation={saturation} />
+            <BrightnessContrast brightness={brightness} contrast={contrast} /> */}
+
+
+            {/* <DotScreen angle={angle} scale={scale} /> */}
+
+            <Bloom 
+                intensity={intensity}
+                mipmapBlur={mipmapBlur}
+                luminanceThreshold={luminanceThreshold}
+                luminanceSmoothing={luminanceSmoothing}
+            />
+        </EffectComposer>
 
         {/* Lights */}
         <ambientLight intensity={0.1} />
 
         <directionalLight
-            //ref={light}
-
-            //castShadow
+            castShadow
             color={0xffffff}
-            intensity={1}
-            position={[0,5,0]}
-        />
-
-        <ContactShadows 
-            position={[0,0,0]}
-            scale={10}
-            resolution={256}
-            color="#ff0000"
-            opacity={1}
-            blur={1}
+            intensity={3}
+            position={[-3,3,3]}
+            shadow-mapSize={[256,256]}
         />
 
         {/* Geometry */}
-        {/* <mesh  rotation-x={THREE.MathUtils.degToRad(-90)}>
+        <mesh receiveShadow rotation-x={THREE.MathUtils.degToRad(-90)}>
             <planeGeometry args={[10,10]} />
             <meshStandardMaterial
                 color="#2c3e50"
@@ -77,14 +108,14 @@ function MyElement3D(){
                 metalness={0.5} 
                 side={THREE.DoubleSide}
             />
-        </mesh> */}
+        </mesh>
 
-        <mesh  position-y={1.7}>
-            <torusKnotGeometry args={[1,0.2,128,32]} />
+        <mesh castShadow receiveShadow position-y={0.6} rotation-x={-Math.PI/2}>
+            <torusKnotGeometry args={[0.6,0.2,128,32]} />
             <meshStandardMaterial 
                 color="#ffffff"
                 roughness={0.1}
-                metalness={0.2}
+                metalness={0.6}
             />
         </mesh>
 
@@ -92,6 +123,7 @@ function MyElement3D(){
             return(
                 <group key={index} rotation-y={THREE.MathUtils.degToRad(45 * index)}>
                     <mesh 
+                        castShadow receiveShadow
                         geometry={torusGeometry}
                         material={torusMaterial}
                         position={[3,0.5,0]}
@@ -101,42 +133,20 @@ function MyElement3D(){
         })}
 
         <group name="smallSpherePivot">
-            <mesh position={[3,0.5,0]}>
+            <mesh castShadow receiveShadow position={[3,0.5,0]}>
                 <sphereGeometry args={[0.3,32,32]} />
                 <meshStandardMaterial 
                     color="#e74c3c"
                     roughness={0.2}
                     metalness={0.5}
+
+                    emissive="#ff4c3c"
+                    toneMapped={true}
+                    emissiveIntensity={50}
                 />
+                <pointLight color="#ff4c3c" intensity={7} />
             </mesh> 
         </group>
-{/* 
-        <AccumulativeShadows
-            position={[0,0.1,0]}
-            scale={12}
-            color="#000000"
-            opacity={0.7}
-            alphaTest={1}
-            frames={Infinity}
-            temporal
-            blend={30}
-        >
-
-            <RandomizedLight 
-                radius={0.5}
-                ambient={0.21}
-                intensity={1.5}
-                position={[5,3,0]}
-            />
-
-            <RandomizedLight 
-                amount={1}
-                radius={0.5}
-                ambient={0.21}
-                intensity={0.6}
-                position={[-5,3,5]}
-            />
-        </AccumulativeShadows> */}
         </>
     )
 }

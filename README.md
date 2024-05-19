@@ -307,3 +307,25 @@ SoftShadows
 ![ContactShadows](https://github.com/CommercialCrew/r3fpractice/assets/101386134/9d609d84-8ce3-4403-8cba-e99ee25b78b9)
 
 ContactShadows
+
+12
+---
+![animation](https://github.com/CommercialCrew/r3fpractice/assets/101386134/0c526f24-2616-405d-939c-73a1a3c303ab)
+
+13-1
+--
+![12-1(HueSaturation and BrightnessContrast)](https://github.com/CommercialCrew/r3fpractice/assets/101386134/6c83dfbb-4bba-4c1c-95a1-70d20e940810)
+
+HueSaturation & BrightnessContract
+
+13-2
+---
+![12-2(DotScreen)](https://github.com/CommercialCrew/r3fpractice/assets/101386134/d36651a7-93cf-45c6-81d7-06d0a6b7c4e8)
+
+DotScreen
+
+13-3
+---
+![12-3(Bloom)](https://github.com/CommercialCrew/r3fpractice/assets/101386134/ddd54470-9492-4a5c-87b5-4756065edac4)
+
+Bloom

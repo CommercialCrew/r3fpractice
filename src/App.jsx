@@ -6,10 +6,8 @@ function App() {
   return (
     <>
       <Canvas
-        // shadows
+        shadows
         camera={{
-          near: 1,
-          far: 100,
           position: [7,7,0]
 
         }}>
